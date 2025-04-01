@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인 - DailyPick</title>
+    <link rel="stylesheet" href="/css/mainPage.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .login-container {
+            max-width: 350px;
+            margin: 100px auto;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .google-login-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 24px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #555;
+            font-weight: bold;
+        }
+        .google-login-btn img {
+            width: 20px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <a href="/oauth2/authorization/google" class="google-login-btn">
+        <img src="/img/google-logo.png" alt="Google Logo">
+        구글 계정으로 로그인
+    </a>
+</div>
+
+</body>
+</html>
