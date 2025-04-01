@@ -1,0 +1,114 @@
+/* 기본 초기화 */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #121212;
+    color: white;
+}
+
+a {
+    text-decoration: none;
+    color: #ccc;
+    margin-left: 1rem;
+}
+
+a:hover {
+    color: white;
+}
+
+/* 🔝 헤더 스타일 */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1f1f1f;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* 📦 섹션 공통 */
+.section {
+    padding: 3rem 2rem;
+    min-height: 60vh;
+}
+
+.recommend-section {
+    background-color: #121212;
+}
+
+.category-section {
+    background-color: #181818;
+}
+
+.like-section {
+    background-color: #1e1e1e;
+}
+
+/* 🎴 콘텐츠 그리드 */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+/* 📄 카드 디자인 */
+.card {
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem;
+}
+
+.info h3 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.ott-logo {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+/* ❗ 찜 비로그인 안내 */
+.empty-message {
+    text-align: center;
+    color: #aaa;
+    margin-top: 2rem;
+    font-size: 1rem;
+}
+
+/* 📩 푸터 */
+.footer {
+    text-align: center;
+    padding: 2rem;
+    background-color: #1f1f1f;
+    font-size: 0.9rem;
+    color: #aaa;
+}
