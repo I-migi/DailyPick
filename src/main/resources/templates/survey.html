@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>취향 설문 - DailyPick</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="/css/mainPage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        body {
+            background-color: #111;
+            margin: 0;
+            padding: 0;
+        }
+
+        .survey-container {
+            max-width: 600px;
+            margin: 80px auto;
+            padding: 40px 50px;
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            color: #333;
+        }
+
+        .survey-container h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .checkbox-group,
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 20px;
+        }
+
+        .checkbox-group label,
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+            color: #444;
+        }
+
+        .checkbox-group input,
+        .radio-group input {
+            margin-right: 6px;
+        }
+
+        .submit-btn {
+            margin-top: 20px;
+            width: 100%;
+            padding: 14px;
+            background-color: #4e54c8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: #3d42a2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="survey-container">
+    <h2>🎯 나의 취향을 알려주세요!</h2>
+    <form action="/survey" method="post">
+        <!-- 장르 선택 -->
+        <div class="form-group">
+            <label>좋아하는 장르 <small>(최대 3개)</small></label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="genres" value="액션"> 액션</label>
+                <label><input type="checkbox" name="genres" value="로맨스"> 로맨스</label>
+                <label><input type="checkbox" name="genres" value="코미디"> 코미디</label>
+                <label><input type="checkbox" name="genres" value="스릴러"> 스릴러</label>
+                <label><input type="checkbox" name="genres" value="SF"> SF</label>
+                <label><input type="checkbox" name="genres" value="다큐멘터리"> 다큐멘터리</label>
+            </div>
+        </div>
+
+        <!-- OTT 선택 -->
+        <div class="form-group">
+            <label>주로 이용하는 OTT</label>
+            <div class="radio-group">
+                <label><input type="radio" name="ott" value="넷플릭스" required> 넷플릭스</label>
+                <label><input type="radio" name="ott" value="왓챠"> 왓챠</label>
+                <label><input type="radio" name="ott" value="쿠팡플레이"> 쿠팡플레이</label>
+                <label><input type="radio" name="ott" value="디즈니플러스"> 디즈니+</label>
+                <label><input type="radio" name="ott" value="티빙"> 티빙</label>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">선택 완료</button>
+    </form>
+</div>
+
+<script>
+    const checkboxes = document.querySelectorAll('input[name="genres"]');
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', () => {
+            const checkedCount = document.querySelectorAll('input[name="genres"]:checked').length;
+            if (checkedCount > 3) {
+                cb.checked = false;
+                alert("장르는 최대 3개까지 선택할 수 있어요!");
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
