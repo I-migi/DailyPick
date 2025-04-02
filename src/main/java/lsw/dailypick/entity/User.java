@@ -23,5 +23,9 @@ public class User {
 
     private boolean firstLogin;
 
+    private String genre1;
+    private String genre2;
+    private String genre3;
+
 
 }
