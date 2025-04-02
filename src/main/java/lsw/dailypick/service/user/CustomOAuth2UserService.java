@@ -37,7 +37,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         log.info("provider: {}", userRequest.getClientRegistration().getRegistrationId());
         log.info("providerId: {}", oAuth2User.getAttributes().get("sub"));
 
-        User user = userRepository.findByProviderAndProviderId(providerId, providerId)
+        User user = userRepository.findByProviderAndProviderId(provider, providerId)
                 .orElseGet(() -> {
                     User newUser = new User();
                     newUser.setEmail(email);
