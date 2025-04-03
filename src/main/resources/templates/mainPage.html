@@ -14,7 +14,7 @@
         <span th:if="${name != null}">
             <span th:text="${name}"></span>님
         </span>
-        <a th:if="${name == null}" href="/login">로그인</a>
+        <a th:if="${name == null}" href="/user/login">로그인</a>
     </nav>
 </header>
 
@@ -22,27 +22,7 @@
 <section class="section recommend-section">
     <h1>✨ 오늘의 추천 콘텐츠</h1>
     <div class="grid">
-        <div class="card">
-            <img src="/img/content/sample1.jpg" alt="콘텐츠1">
-            <div class="info">
-                <h3>더 배트맨</h3>
-                <img class="ott-logo" src="/img/ott/netflix.png" alt="Netflix">
-            </div>
-        </div>
-        <div class="card">
-            <img src="/img/content/sample2.jpg" alt="콘텐츠2">
-            <div class="info">
-                <h3>서울의 밤</h3>
-                <img class="ott-logo" src="/img/ott/watcha.png" alt="Watcha">
-            </div>
-        </div>
-        <div class="card">
-            <img src="/img/content/sample3.jpg" alt="콘텐츠3">
-            <div class="info">
-                <h3>더 글로리</h3>
-                <img class="ott-logo" src="/img/ott/netflix.png" alt="Netflix">
-            </div>
-        </div>
+
     </div>
 </section>
 
@@ -50,20 +30,7 @@
 <section class="section category-section">
     <h2>🔥 넷플릭스 인기 콘텐츠</h2>
     <div class="grid">
-        <div class="card">
-            <img src="/img/content/sample4.jpg" alt="콘텐츠4">
-            <div class="info">
-                <h3>기묘한 이야기</h3>
-                <img class="ott-logo" src="/img/ott/netflix.png" alt="Netflix">
-            </div>
-        </div>
-        <div class="card">
-            <img src="/img/content/sample5.jpg" alt="콘텐츠5">
-            <div class="info">
-                <h3>오징어 게임</h3>
-                <img class="ott-logo" src="/img/ott/netflix.png" alt="Netflix">
-            </div>
-        </div>
+
     </div>
 </section>
 

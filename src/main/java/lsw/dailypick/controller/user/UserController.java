@@ -6,9 +6,10 @@ import lsw.dailypick.entity.User;
 import lsw.dailypick.repository.user.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
@@ -17,7 +18,7 @@ public class UserController {
 
 
     @PostMapping("/genre")
-    public ResponseEntity<User> genre(@RequestBody GenreDto genreDto, @AuthenticationPrincipal User principal) {
+    public String genre(@RequestBody GenreDto genreDto, @AuthenticationPrincipal User principal) {
         User user = userRepository.findByEmail(principal.getEmail());
 
         user.setGenre1(genreDto.genre1());
@@ -26,7 +27,17 @@ public class UserController {
 
         userRepository.save(user);
 
-        return ResponseEntity.ok(user);
+        return "redirect:/";
+    }
+
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
+    }
+
+    @GetMapping("/signup")
+    public String signupPage() {
+        return "signup";
     }
 
 }
