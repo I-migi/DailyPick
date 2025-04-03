@@ -121,15 +121,46 @@
 
 <script>
     const checkboxes = document.querySelectorAll('input[name="genres"]');
+
     checkboxes.forEach(cb => {
         cb.addEventListener('change', () => {
-            const checkedCount = document.querySelectorAll('input[name="genres"]:checked').length;
-            if (checkedCount > 3) {
+            const checked = document.querySelectorAll('input[name="genres"]:checked');
+
+            if (checked > 3) {
                 cb.checked = false;
-                alert("장르는 최대 3개까지 선택할 수 있어요!");
+                alert("장르는 최대 3개까지 선택할 수 있습니다");
             }
         });
     });
+
+    document.getElementById('submit-btn').addEventListener('click', () => {
+        const checked = document.querySelectorAll('input[name="genres"]:checked');
+        const genreList = Array.from(checked).map(cb => cb.value);
+
+        fetch('/user/genre', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                genre1: genreList[1] || null,
+                genre2: genreList[2] || null,
+                genre3: genreList[3] || null
+            })
+            }
+        )
+            .then(response => {
+                if(!response.ok) throw new Error("서버 오류!");
+                return response.json();
+            })
+            .then(data => {
+                alert('성공: ' + data.message);
+            })
+            .catch(error => {
+                alert('오류: ' + error.message);
+            });
+    });
+
 </script>
 
 </body>

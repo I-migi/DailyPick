@@ -11,10 +11,7 @@ public class HomeController {
         return "mainPage";
     }
 
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login";
-    }
+
 
     @GetMapping("/survey")
     public String servicePage() {
