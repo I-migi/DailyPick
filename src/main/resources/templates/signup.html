@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>회원가입 - DailyPick</title>
@@ -64,32 +64,6 @@
             color: #888;
         }
 
-        .checkbox-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .checkbox-group label {
-            background-color: #2c2c2c;
-            padding: 8px 14px;
-            border-radius: 6px;
-            border: 1px solid #444;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            display: none;
-        }
-
-        .checkbox-group input[type="checkbox"]:checked + label {
-            background-color: #2563eb;
-            border-color: #2563eb;
-            color: white;
-        }
-
         .gender-group {
             display: flex;
             gap: 16px;
@@ -99,6 +73,16 @@
         .gender-group label {
             font-size: 14px;
             color: #ccc;
+        }
+
+        .birthday-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .birthday-group select {
+            flex: 1;
         }
 
         .signup-container button {
@@ -124,58 +108,57 @@
             font-size: 13px;
             color: #aaa;
         }
+
+        a {
+            color: #4d90fe;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
 <div class="signup-container">
     <h2>회원가입</h2>
-    <form method="POST" action="/user/signup">
+    <form method="POST" th:action="@{/user/signup}" th:object="${userDto}">
         <label for="name">이름</label>
-        <input type="text" id="name" name="name" placeholder="홍길동" required>
+        <input type="text" id="name" th:field="*{name}" required>
 
         <label for="email">이메일</label>
-        <input type="email" id="email" name="email" placeholder="example@email.com" required>
+        <input type="email" id="email" th:field="*{email}" placeholder="example@email.com" required>
+
+        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: #f87171; font-size: 13px;"></div>
 
         <label for="password">비밀번호</label>
-        <input type="password" id="password" name="password" required>
-
-        <label for="confirm">비밀번호 확인</label>
-        <input type="password" id="confirm" name="confirm" required>
+        <input type="password" id="password" th:field="*{password}" required>
 
         <label>성별</label>
-        <div class="gender-group">
-            <label><input type="radio" name="gender" value="남성" required> 남성</label>
-            <label><input type="radio" name="gender" value="여성"> 여성</label>
+        <div class="gender-group" >
+            <label><input type="radio" th:field="*{gender}" value="남성" required> 남성</label>
+            <label><input type="radio" th:field="*{gender}" value="여성"> 여성</label>
         </div>
 
-        <label for="age">나이</label>
-        <input type="text" id="age" name="age" placeholder="만 나이" required>
-
-        <label>선호 장르 (최대 3개)</label>
-        <div class="checkbox-group">
-            <input type="checkbox" id="genre1" name="genres" value="로맨스">
-            <label for="genre1">로맨스</label>
-
-            <input type="checkbox" id="genre2" name="genres" value="스릴러">
-            <label for="genre2">스릴러</label>
-
-            <input type="checkbox" id="genre3" name="genres" value="액션">
-            <label for="genre3">액션</label>
-
-            <input type="checkbox" id="genre4" name="genres" value="코미디">
-            <label for="genre4">코미디</label>
-
-            <input type="checkbox" id="genre5" name="genres" value="공포">
-            <label for="genre5">공포</label>
-
-            <input type="checkbox" id="genre6" name="genres" value="판타지">
-            <label for="genre6">판타지</label>
+        <label>생년월일</label>
+        <div class="birthday-group">
+            <select th:field="*{birthYear}" required>
+                <option value="">년</option>
+                <option th:each="year : ${#numbers.sequence(1970, 2020)}"
+                        th:value="${year}" th:text="${year}">2025</option>
+            </select>
+            <select th:field="*{birthMonth}" required>
+                <option value="">월</option>
+                <option th:each="month : ${#numbers.sequence(1, 12)}"
+                        th:value="${month}" th:text="${month}">1</option>
+            </select>
+            <select th:field="*{birthDay}" required>
+                <option value="">일</option>
+                <option th:each="day : ${#numbers.sequence(1, 31)}"
+                        th:value="${day}" th:text="${day}">1</option>
+            </select>
         </div>
 
         <button type="submit">가입하기</button>
     </form>
     <div class="sub-text">
-        이미 계정이 있으신가요? <a href="/login" style="color:#4d90fe; text-decoration: none;">로그인</a>
+        이미 계정이 있으신가요? <a href="/login">로그인</a>
     </div>
 </div>
 </body>

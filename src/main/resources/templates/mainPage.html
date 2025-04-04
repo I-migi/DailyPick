@@ -11,10 +11,10 @@
 <header class="navbar">
     <div class="logo">🎬 DailyPick</div>
     <nav>
-        <span th:if="${name != null}">
-            <span th:text="${name}"></span>님
+        <span th:if="${isLoggedIn == true}">
+            <span th:text="${userName}"></span>님
         </span>
-        <a th:if="${name == null}" href="/user/login">로그인</a>
+        <a th:if="${isLoggedIn == false}" href="/user/login">로그인</a>
     </nav>
 </header>
 
