@@ -11,11 +11,16 @@
 <header class="navbar">
     <div class="logo">🎬 DailyPick</div>
     <nav>
-        <span th:if="${isLoggedIn == true}">
-            <span th:text="${userName}"></span>님
-        </span>
+        <div th:if="${isLoggedIn == true}" class="user-dropdown">
+            <span class="user-name" onclick="toggleDropdown()" th:text="${userName} + '님'"></span>
+            <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
+                <a href="/user/myPage">마이페이지</a>
+                <a href="/user/logout">로그아웃</a>
+            </div>
+        </div>
         <a th:if="${isLoggedIn == false}" href="/user/login">로그인</a>
     </nav>
+
 </header>
 
 <!-- 🌟 오늘의 추천 콘텐츠 -->
@@ -47,4 +52,20 @@
     &copy; 2025 DailyPick | All rights reserved
 </footer>
 </body>
+
+<script>
+    function toggleDropdown() {
+        const menu = document.getElementById('dropdownMenu');
+        menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+    }
+
+    window.addEventListener('click', function(e) {
+        const dropdown = document.querySelector('.user-dropdown');
+        if (!dropdown.contains(e.target)) {
+            document.getElementById('dropdownMenu').style.display = 'none';
+        }
+    });
+</script>
+</body>
+
 </html>

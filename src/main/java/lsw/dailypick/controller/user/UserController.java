@@ -17,6 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -60,7 +62,8 @@ public class UserController {
     public String login(@ModelAttribute @Valid LoginDto loginDto, Model model, HttpSession session) {
 
         if (userService.validateLogin(loginDto)) {
-            session.setAttribute("loginUser", loginDto.getEmail());
+            User user = userService.findByEmail(loginDto.getEmail()).orElse(null);
+            session.setAttribute("loginUser", user);
             return "redirect:/";
         }
 
@@ -72,6 +75,15 @@ public class UserController {
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/";
+    }
+
+    @GetMapping("/myPage")
+    public String myPage(Model model, HttpSession session) {
+        User loginUser = (User) session.getAttribute("loginUser");
+        log.info("loginUser: {}", loginUser);
+        model.addAttribute("loginUser", loginUser);
+        return "myPage";
+
     }
 
 

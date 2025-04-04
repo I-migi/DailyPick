@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지 - DailyPick</title>
+    <link rel="stylesheet" href="/css/myPage.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<header class="navbar">
+    <div class="logo">🎬 DailyPick</div>
+    <nav>
+        <a href="/">홈</a>
+        <a href="/user/logout">로그아웃</a>
+    </nav>
+</header>
+
+<main class="container">
+    <!-- 👤 유저 정보 -->
+    <section class="profile-card">
+        <h2>👤 내 정보</h2>
+        <div class="profile-info">
+            <p><strong>이름:</strong> <span th:text="${loginUser.getName()}">홍길동</span></p>
+            <p><strong>이메일:</strong> <span th:text="${loginUser.getEmail()}">test@example.com</span></p>
+            <p><strong>성별:</strong> <span th:text="${loginUser.getGender()}">남성</span></p>
+            <p><strong>생년월일:</strong> <span th:text="${#temporals.format(loginUser.getBirthday(), 'yyyy-MM-dd')}">1990-01-01</span></p>
+
+            <div class="btn-group">
+                <a href="/user/preferences" class="btn btn-preference">🎯 취향 변경하기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ❤️ 찜한 콘텐츠 -->
+    <section class="section">
+        <h2>❤️ 내가 찜한 콘텐츠</h2>
+        <div class="grid">
+            <!-- 반복 카드 -->
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    &copy; 2025 DailyPick | All rights reserved
+</footer>
+</body>
+</html>

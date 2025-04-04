@@ -18,20 +18,16 @@ public class HomeController {
 
     @GetMapping("/")
     public String mainPage(HttpSession session, Model model) {
-        Object loginUser = session.getAttribute("loginUser");
+        User loginUser = (User) session.getAttribute("loginUser");
 
         if (loginUser == null) {
             model.addAttribute("isLoggedIn", false);
             return "mainPage";
         }
 
-
-        if (userService.findByEmail(loginUser.toString()).isPresent()) {
-            model.addAttribute("userName", userService.findByEmail(loginUser.toString()).get().getName());
-            model.addAttribute("isLoggedIn", true);
-            model.addAttribute("userEmail", loginUser);
-        }
-
+        model.addAttribute("userName", loginUser.getName());
+        model.addAttribute("isLoggedIn", true);
+        model.addAttribute("userEmail", loginUser.getEmail());
 
         return "mainPage";
     }
