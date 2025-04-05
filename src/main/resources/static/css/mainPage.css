@@ -45,6 +45,27 @@ body, html {
     text-decoration: none;
     transition: background 0.2s;
 }
+.analyze-button {
+    margin-right: 1rem;
+    padding: 8px 12px;
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.analyze-button:hover {
+    background-color: #d9363e;
+}
+
+.navbar nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
 
 .dropdown-menu a:hover {
     background-color: #3a3a3a;

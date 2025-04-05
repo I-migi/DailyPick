@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>취향 분석 시작하기 | DailyPick</title>
+    <link rel="stylesheet" href="/css/analyze.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body class="dark-mode">
+<header class="navbar">
+    <div class="logo">🎬 DailyPick</div>
+    <nav>
+        <a href="/">홈</a>
+        <a href="/user/myPage">마이페이지</a>
+        <a href="/user/logout">로그아웃</a>
+    </nav>
+</header>
+
+<main class="analyze-container">
+    <h1>🎯 취향 분석 시작하기</h1>
+    <p class="subtitle">좋아하는 영화 스타일을 선택하면, 나만을 위한 추천을 만들어드릴게요!</p>
+
+    <!-- Step 1: 국내 vs 해외 -->
+    <section class="analyze-section">
+        <h2>1. 국내 영화와 해외 영화 중 어떤 걸 더 선호하시나요?</h2>
+        <div class="choice-group">
+            <label><input type="radio" name="origin" value="korea"> 국내 영화</label>
+            <label><input type="radio" name="origin" value="foreign"> 해외 영화</label>
+            <label><input type="radio" name="origin" value="both"> 둘 다 좋아요</label>
+        </div>
+    </section>
+
+    <!-- Step 2: 장르 선택 -->
+    <section class="analyze-section">
+        <h2>2. 좋아하는 장르를 선택해주세요 (최대 3개)</h2>
+        <div class="checkbox-group">
+            <label><input type="checkbox" name="genres" value="액션"> 액션</label>
+            <label><input type="checkbox" name="genres" value="로맨스"> 로맨스</label>
+            <label><input type="checkbox" name="genres" value="코미디"> 코미디</label>
+            <label><input type="checkbox" name="genres" value="스릴러"> 스릴러</label>
+            <label><input type="checkbox" name="genres" value="판타지"> 판타지</label>
+            <label><input type="checkbox" name="genres" value="SF"> SF</label>
+            <label><input type="checkbox" name="genres" value="공포"> 공포</label>
+            <label><input type="checkbox" name="genres" value="애니메이션"> 애니메이션</label>
+        </div>
+    </section>
+
+    <!-- Step 3: 감정 기반 -->
+    <section class="analyze-section">
+        <h2>3. 어떤 분위기의 영화를 자주 보시나요?</h2>
+        <div class="choice-group">
+            <label><input type="radio" name="mood" value="감동"> 감동적인</label>
+            <label><input type="radio" name="mood" value="유쾌한"> 유쾌한</label>
+            <label><input type="radio" name="mood" value="몰입감 있는"> 몰입감 있는</label>
+            <label><input type="radio" name="mood" value="긴장감 있는"> 긴장감 있는</label>
+        </div>
+    </section>
+
+    <!-- Step 4: 시청 환경 -->
+    <section class="analyze-section">
+        <h2>4. 주로 어떤 환경에서 영화를 시청하시나요?</h2>
+        <div class="choice-group">
+            <label><input type="radio" name="env" value="혼자"> 혼자 조용히</label>
+            <label><input type="radio" name="env" value="가족"> 가족과 함께</label>
+            <label><input type="radio" name="env" value="친구"> 친구들과</label>
+        </div>
+    </section>
+
+    <!-- Step 5: 플랫폼 선호도 -->
+    <section class="analyze-section">
+        <h2>5. 어떤 플랫폼을 가장 자주 이용하시나요?</h2>
+        <div class="choice-group">
+            <label><input type="radio" name="platform" value="넷플릭스"> 넷플릭스</label>
+            <label><input type="radio" name="platform" value="왓챠"> 왓챠</label>
+            <label><input type="radio" name="platform" value="쿠팡플레이"> 쿠팡플레이</label>
+            <label><input type="radio" name="platform" value="기타"> 기타</label>
+        </div>
+    </section>
+
+    <!-- 제출 버튼 -->
+    <div class="submit-wrap">
+        <button id="submitBtn">✨ 내 취향 분석하기</button>
+    </div>
+</main>
+
+<footer class="footer">
+    &copy; 2025 DailyPick | All rights reserved
+</footer>
+
+<script>
+    document.getElementById("submitBtn").addEventListener("click", function() {
+        const origin = document.querySelector("input[name='origin']:checked")?.value;
+        const genres = Array.from(document.querySelectorAll("input[name='genres']:checked")).map(cb => cb.value);
+        const mood = document.querySelector("input[name='mood']:checked")?.value;
+        const env = document.querySelector("input[name='env']:checked")?.value;
+        const platform = document.querySelector("input[name='platform']:checked")?.value;
+
+        if (!origin || genres.length === 0 || !mood || !env || !platform) {
+            alert("모든 항목을 선택해주세요!");
+            return;
+        }
+
+        // TODO: 결과 페이지 연동 (예: fetch 또는 redirect)
+        console.log({ origin, genres, mood, env, platform });
+        alert("분석 완료! 결과 페이지로 이동합니다 ✨");
+    });
+</script>
+</body>
+</html>

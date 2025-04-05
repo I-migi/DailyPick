@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>영화 상세</title>
+    <link rel="stylesheet" href="/css/detail.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body class="dark-mode">
+<header class="navbar">
+    <div class="logo"><a href="/">🎬 DailyPick</a></div>
+    <nav>
+        <a href="/user/myPage">마이페이지</a>
+        <a href="/user/logout">로그아웃</a>
+    </nav>
+</header>
+
+<main class="detail-container">
+    <div class="poster">
+        <img src="" alt="포스터" />
+    </div>
+
+    <div class="info">
+        <h1>영화 제목</h1>
+        <p class="original-title">원제: </p>
+        <p class="release-date">개봉일: <span></span></p>
+        <p class="vote">평점: <span></span> / 10</p>
+        <p class="overview">줄거리</p>
+
+        <div class="genres"></div>
+    </div>
+</main>
+
+<footer class="footer">
+    &copy; 2025 DailyPick | All rights reserved
+</footer>
+
+<!-- movieId를 JS에서 안전하게 사용 -->
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", () => {
+        const movieId = [[${movieId}]];
+
+        if (!movieId || movieId === 0) {
+            alert("잘못된 영화 ID입니다.");
+            return;
+        }
+
+        fetch(`/api/movies/detail?movieId=${movieId}`)
+            .then(res => res.json())
+            .then(data => {
+                document.querySelector("h1").textContent = data.title;
+                document.querySelector(".original-title").textContent = "원제: " + data.original_title;
+                document.querySelector(".release-date span").textContent = data.release_date;
+                document.querySelector(".vote span").textContent = data.vote_average;
+                document.querySelector(".overview").textContent = data.overview;
+                document.querySelector(".poster img").src = `https://image.tmdb.org/t/p/w500${data.poster_path}`;
+                document.querySelector(".poster img").alt = data.title;
+
+                const genresContainer = document.querySelector(".genres");
+                genresContainer.innerHTML = "";
+
+                data.genres.forEach(g => {
+                    const span = document.createElement("span");
+                    span.className = "genre";
+                    span.textContent = g.name;
+                    genresContainer.appendChild(span);
+                });
+            })
+            .catch(err => {
+                console.error("Failed to load movie detail", err);
+            });
+    });
+</script>
+</body>
+</html>

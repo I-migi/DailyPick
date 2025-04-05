@@ -4,9 +4,11 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lsw.dailypick.entity.User;
 import lsw.dailypick.service.user.UserService;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -36,6 +38,14 @@ public class HomeController {
     @GetMapping("/survey")
     public String servicePage() {
         return "survey";
+    }
+
+    @GetMapping(value = "/movie")
+    public String getMovieDetailPage(@RequestParam("movieId") String  movieId, Model model) {
+
+        model.addAttribute("movieId", movieId);
+
+        return "detail";
     }
 
 }

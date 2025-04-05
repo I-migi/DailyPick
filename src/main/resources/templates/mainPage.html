@@ -11,6 +11,8 @@
 <header class="navbar">
     <div class="logo">🎬 DailyPick</div>
     <nav>
+        <button id="analyzeBtn" class="analyze-button">🎯 취향 분석하기</button>
+
         <div th:if="${isLoggedIn == true}" class="user-dropdown">
             <span class="user-name" onclick="toggleDropdown()" th:text="${userName} + '님'"></span>
             <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
@@ -20,20 +22,24 @@
         </div>
         <a th:if="${isLoggedIn == false}" href="/user/login">로그인</a>
     </nav>
-
 </header>
 
-<!-- 🌟 오늘의 추천 콘텐츠 -->
-<section class="section recommend-section">
-    <h1>✨ 오늘의 추천 콘텐츠</h1>
-    <div class="grid">
 
-    </div>
-</section>
+
 
 <!-- 🔍 넷플릭스 인기작 -->
 <section class="section category-section">
-    <h2>🔥 인기 콘텐츠</h2>
+    <h1>🔥 인기 콘텐츠</h1>
+    <div class="grid">
+    </div>
+</section>
+
+<!-- 🌟 오늘의 추천 콘텐츠 -->
+<section class="section recommend-section">
+    <h2>✨ 오늘의 추천 콘텐츠</h2>
+    <div class="empty-message">
+        <p>로그인하고 찜한 콘텐츠를 확인해보세요!</p>
+    </div>
     <div class="grid">
 
     </div>
@@ -79,13 +85,20 @@
                     <h3>${movie.title}</h3>
                     <p>${movie.release_date}</p>
                 `;
+                    item.addEventListener("click", () => {
+                        window.location.href = `/movie?movieId=${movie.id}`;
+                    })
                     grid.appendChild(item);
                 });
             })
             .catch(err => console.error("Failed to fetch popular movies:", err));
+
+        document.getElementById("analyzeBtn").addEventListener("click", () => {
+            location.href = "/user/analyzePage"
+        })
     })
 
 </script>
-</body>
+
 
 </html>

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 public class MovieDto {
-    private int id;
+    private Long id;
     private String original_language;
     private String original_title;
     private String poster_path;

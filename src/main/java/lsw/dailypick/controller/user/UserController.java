@@ -4,20 +4,14 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lsw.dailypick.dto.GenreDto;
 import lsw.dailypick.dto.LoginDto;
 import lsw.dailypick.dto.UserDto;
 import lsw.dailypick.entity.User;
-import lsw.dailypick.repository.user.UserRepository;
 import lsw.dailypick.service.user.UserService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -85,6 +79,12 @@ public class UserController {
         return "myPage";
 
     }
+
+    @GetMapping("/analyzePage")
+    public String analyze(Model model, HttpSession session) {
+        return "analyze";
+    }
+
 
 
 
