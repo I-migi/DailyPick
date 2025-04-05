@@ -13,5 +13,6 @@ public class DotenvApplicationContextInitializer implements ApplicationContextIn
         System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
         System.setProperty("GOOGLE_CLIENT_ID", dotenv.get("GOOGLE_CLIENT_ID"));
         System.setProperty("GOOGLE_CLIENT_SECRET", dotenv.get("GOOGLE_CLIENT_SECRET"));
+        System.setProperty("TMDB_API_KEY", dotenv.get("TMDB_API_KEY"));
     }
 }

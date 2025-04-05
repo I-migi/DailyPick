@@ -50,6 +50,21 @@ body, html {
     background-color: #3a3a3a;
     color: #fff;
 }
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+    padding: 1rem;
+}
+
+.movie-card {
+    text-align: center;
+}
+
+.movie-card img {
+    width: 100%;
+    border-radius: 12px;
+}
 
 
 

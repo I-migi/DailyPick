@@ -33,7 +33,7 @@
 
 <!-- 🔍 넷플릭스 인기작 -->
 <section class="section category-section">
-    <h2>🔥 넷플릭스 인기 콘텐츠</h2>
+    <h2>🔥 인기 콘텐츠</h2>
     <div class="grid">
 
     </div>
@@ -65,6 +65,26 @@
             document.getElementById('dropdownMenu').style.display = 'none';
         }
     });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        fetch("/api/movies/popular")
+            .then(response => response.json())
+            .then(data => {
+                const grid = document.querySelector(".category-section .grid");
+                data.forEach(movie => {
+                    const item = document.createElement("div");
+                    item.className = "movie-card";
+                    item.innerHTML = `
+                    <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" />
+                    <h3>${movie.title}</h3>
+                    <p>${movie.release_date}</p>
+                `;
+                    grid.appendChild(item);
+                });
+            })
+            .catch(err => console.error("Failed to fetch popular movies:", err));
+    })
+
 </script>
 </body>
 
