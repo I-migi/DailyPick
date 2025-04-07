@@ -8,7 +8,7 @@ import java.util.List;
 public class MovieDetailDto {
     private boolean adult;
     private String backdrop_path;
-    private List<Genre> genres;
+    private List<GenreDto> genreDtos;
     private Long id;
     private String overview;
     private String release_date;

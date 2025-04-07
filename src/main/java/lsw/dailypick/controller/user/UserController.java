@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lsw.dailypick.dto.GenreDto;
 import lsw.dailypick.dto.LoginDto;
 import lsw.dailypick.dto.UserDto;
 import lsw.dailypick.entity.User;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -81,9 +84,15 @@ public class UserController {
     }
 
     @GetMapping("/analyzePage")
-    public String analyze(Model model, HttpSession session) {
+    public String analyzePage(Model model, HttpSession session) {
         return "analyze";
     }
+
+//    @PutMapping("/analyze")
+//    public String analyze(List<GenreDto> genreDto, Model model, HttpSession session) {
+//        User loginUser = (User) session.getAttribute("loginUser");
+//
+//    }
 
 
 

@@ -1,14 +1,12 @@
 package lsw.dailypick.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Set;
 
 @Data
 @Entity
@@ -31,8 +29,8 @@ public class User {
 
     private String profileImageUrl;
 
-
-
+    @ManyToMany
+    private Set<Genre> genres;
 
     public User(String email, String password, String name, String gender, LocalDate birthday) {
         this.email = email;
