@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lsw.dailypick.dto.MovieDetailDto;
 import lsw.dailypick.dto.MovieDto;
 import lsw.dailypick.dto.TMDBResponseDto;
+import lsw.dailypick.entity.Genre;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -38,6 +39,20 @@ public class TMDbService {
                 + "?api_key=" + apiKey
                 + "&language=ko-KR"
                 + "&page=1";
+        TMDBResponseDto response =  restTemplate.getForObject(url, TMDBResponseDto.class);
+        return response.getResults().subList(0, 10);
+    }
+
+    public List<MovieDto> getPopularMoviesByGenreAndCountry(Long genreId, Boolean preferDomestic) {
+
+        String originalLanguage = preferDomestic ? "ko" : "en";
+
+        String url = "https://api.themoviedb.org/3/discover/movie"
+                + "?api_key=" + apiKey
+                + "&language=ko-KR"
+                + "&with_genres=" + genreId
+                + "&sort_by=popularity.desc"
+                + "&with_original_language=" + originalLanguage;
         TMDBResponseDto response =  restTemplate.getForObject(url, TMDBResponseDto.class);
         return response.getResults().subList(0, 10);
     }

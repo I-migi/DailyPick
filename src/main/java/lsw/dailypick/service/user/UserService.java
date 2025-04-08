@@ -31,6 +31,10 @@ public class UserService {
         userRepository.save(newUser);
     }
 
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -40,9 +44,7 @@ public class UserService {
     }
 
     public boolean validateLogin(@Valid LoginDto loginDto) {
-
         return userRepository.findByEmailAndPassword(loginDto.getEmail(), loginDto.getPassword()).isPresent();
-
     }
 
 }

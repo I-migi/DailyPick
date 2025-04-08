@@ -1,6 +1,5 @@
 package lsw.dailypick.dto;
 
-import com.nimbusds.openid.connect.sdk.claims.Gender;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

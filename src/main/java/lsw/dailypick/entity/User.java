@@ -1,14 +1,13 @@
 package lsw.dailypick.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+import lombok.Setter;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Set;
 
-@Data
+@Getter
 @Entity
 @NoArgsConstructor
 public class User {
@@ -27,8 +26,10 @@ public class User {
 
     private LocalDate birthday;
 
-    private String profileImageUrl;
+    @Setter
+    private Boolean prefersDomestic;
 
+    @Setter
     @ManyToMany
     private Set<Genre> genres;
 
@@ -38,7 +39,6 @@ public class User {
         this.name = name;
         this.gender = gender;
         this.birthday = birthday;
-
     }
 
 }

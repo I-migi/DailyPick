@@ -60,6 +60,7 @@
 </body>
 
 <script>
+
     function toggleDropdown() {
         const menu = document.getElementById('dropdownMenu');
         menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
@@ -73,6 +74,8 @@
     });
 
     document.addEventListener("DOMContentLoaded", () => {
+        const isLoggedIn = document.body.dataset.loggedIn === "true";
+
         fetch("/api/movies/popular")
             .then(response => response.json())
             .then(data => {
@@ -92,6 +95,54 @@
                 });
             })
             .catch(err => console.error("Failed to fetch popular movies:", err));
+
+
+            // 오늘의 추천 콘텐츠
+            fetch("/api/movies/recommend")
+                .then(res => res.json())
+                .then(data => {
+                    const section = document.querySelector(".recommend-section");
+                    const grid = section.querySelector(".grid");
+
+                    if (data.error) {
+                        section.querySelector(".empty-message").innerHTML = data.error;
+                        return;
+                    }
+
+                    section.querySelector(".empty-message").style.display = "none";
+                    data.forEach(movie => {
+                        const item = document.createElement("div");
+                        item.className = "movie-card";
+                        item.innerHTML = `
+                        <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" />
+                        <h3>${movie.title}</h3>
+                        <p>${movie.release_date}</p>
+                    `;
+                        grid.appendChild(item);
+                    });
+                });
+
+            // 찜한 콘텐츠
+            // fetch("/api/movies/liked")
+            //     .then(res => res.json())
+            //     .then(data => {
+            //         const section = document.querySelector(".like-section");
+            //         const grid = document.createElement("div");
+            //         grid.className = "grid";
+            //         section.querySelector(".empty-message").style.display = "none";
+            //         data.forEach(movie => {
+            //             const item = document.createElement("div");
+            //             item.className = "movie-card";
+            //             item.innerHTML = `
+            //             <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" />
+            //             <h3>${movie.title}</h3>
+            //             <p>${movie.release_date}</p>
+            //         `;
+            //             grid.appendChild(item);
+            //         });
+            //         section.appendChild(grid);
+            //     });
+
 
         document.getElementById("analyzeBtn").addEventListener("click", () => {
             location.href = "/user/analyzePage"

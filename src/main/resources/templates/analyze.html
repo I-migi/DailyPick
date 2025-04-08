@@ -94,16 +94,47 @@
         const mood = document.querySelector("input[name='mood']:checked")?.value;
         const env = document.querySelector("input[name='env']:checked")?.value;
         const platform = document.querySelector("input[name='platform']:checked")?.value;
+        const prefersDomestic = origin === "korea";
 
         if (!origin || genres.length === 0 || !mood || !env || !platform) {
             alert("모든 항목을 선택해주세요!");
             return;
         }
 
-        // TODO: 결과 페이지 연동 (예: fetch 또는 redirect)
-        console.log({ origin, genres, mood, env, platform });
-        alert("분석 완료! 결과 페이지로 이동합니다 ✨");
+        fetch("/user/analyze", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                genres,
+                prefersDomestic
+            })
+        })
+            .then(response => response.text())
+            .then(text => {
+                console.log("text:", text);
+                if (text === "success") {
+                    window.location.href = "/";
+                } else {
+                    alert("분석 실패");
+                }
+            })
+            .catch(err => {
+                alert("오류 발생");
+            });
     });
+
+    document.querySelectorAll("input[name='genres']").forEach(cb => {
+        cb.addEventListener("change", () => {
+            const checked = document.querySelectorAll("input[name='genres']:checked");
+            if (checked.length > 3) {
+                cb.checked = false;
+                alert("장르는 최대 3개까지 선택 가능합니다");
+            }
+        });
+    });
+
 </script>
 </body>
 </html>

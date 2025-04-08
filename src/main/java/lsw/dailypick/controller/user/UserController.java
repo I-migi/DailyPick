@@ -4,17 +4,25 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lsw.dailypick.dto.AnalyzeDto;
 import lsw.dailypick.dto.GenreDto;
 import lsw.dailypick.dto.LoginDto;
 import lsw.dailypick.dto.UserDto;
+import lsw.dailypick.entity.Genre;
 import lsw.dailypick.entity.User;
+import lsw.dailypick.service.genre.GenreService;
 import lsw.dailypick.service.user.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -23,6 +31,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final GenreService genreService;
 
 
     @GetMapping("/signup")
@@ -85,14 +94,40 @@ public class UserController {
 
     @GetMapping("/analyzePage")
     public String analyzePage(Model model, HttpSession session) {
+        if (session.getAttribute("loginUser") == null) {
+            return "redirect:/user/login";
+        }
         return "analyze";
     }
 
-//    @PutMapping("/analyze")
-//    public String analyze(List<GenreDto> genreDto, Model model, HttpSession session) {
-//        User loginUser = (User) session.getAttribute("loginUser");
-//
-//    }
+    @ResponseBody
+    @PostMapping("/analyze")
+    public ResponseEntity<String> analyze(@RequestBody AnalyzeDto analyzeDto, Model model, HttpSession session) {
+
+        if (analyzeDto.getGenres() == null || analyzeDto.getGenres().isEmpty() || analyzeDto.getPrefersDomestic() == null) {
+            return ResponseEntity.ok("fail");
+        }
+
+        User loginUser = (User) session.getAttribute("loginUser");
+        if (loginUser == null) {
+            return ResponseEntity.ok("fail");
+        }
+
+        Set<Genre> genreList = analyzeDto.getGenres().stream()
+                .map(genreService::findByName)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+
+        loginUser.setGenres(genreList);
+        loginUser.setPrefersDomestic(analyzeDto.getPrefersDomestic());
+        userService.save(loginUser);
+
+        return ResponseEntity.ok("success");
+    }
+
+
+
 
 
 

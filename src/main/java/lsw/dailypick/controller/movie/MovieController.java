@@ -1,7 +1,10 @@
 package lsw.dailypick.controller.movie;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lsw.dailypick.dto.MovieDetailDto;
+import lsw.dailypick.entity.Genre;
+import lsw.dailypick.entity.User;
 import lsw.dailypick.service.movie.TMDbService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/movies")
@@ -35,6 +40,30 @@ public class MovieController {
         return ResponseEntity.ok(tmDbService.getMovieDetail(movieId));
     }
 
+//    @GetMapping("/recommend")
+//    public ResponseEntity<?> getRecommendMovies(@RequestParam String genreId, @RequestParam Boolean preferDomestic) {
+//        return ResponseEntity.ok(tmDbService.getPopularMoviesByGenreAndCountry(genreId, preferDomestic));
+//    }
+
+    @GetMapping("/recommend")
+    public ResponseEntity<?> getRecommendMovies(HttpSession session) {
+        User loggedUser = (User) session.getAttribute("loginUser");
+        if (loggedUser == null) {
+            return ResponseEntity.ok(Map.of("error", "로그인하고 추천 콘텐츠를 확인해보세요!"));
+        }
+
+        Set<Genre> genres = loggedUser.getGenres();
+        int size = genres.size();
+
+        if (size == 0) {
+            return ResponseEntity.ok(Map.of("error","취향 분석을 하고 추천 콘텐츠를 확인해보세요!"));
+        }
+
+        List<Genre> genreList = new ArrayList<>(genres);
+        Genre randomGenre = genreList.get(new Random().nextInt(genreList.size()));
+
+        return ResponseEntity.ok(tmDbService.getPopularMoviesByGenreAndCountry(randomGenre.getApiId(), loggedUser.getPrefersDomestic()));
+    }
 
 
 
