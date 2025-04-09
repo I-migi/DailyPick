@@ -1,6 +1,7 @@
 package lsw.dailypick.service.movie;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lsw.dailypick.dto.MovieDetailDto;
 import lsw.dailypick.dto.MovieDto;
 import lsw.dailypick.dto.TMDBResponseDto;
@@ -12,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TMDbService {
@@ -46,7 +48,7 @@ public class TMDbService {
     public List<MovieDto> getPopularMoviesByGenreAndCountry(Long genreId, Boolean preferDomestic) {
 
         String originalLanguage = preferDomestic ? "ko" : "en";
-
+        log.info("genreId:{}", genreId);
         String url = "https://api.themoviedb.org/3/discover/movie"
                 + "?api_key=" + apiKey
                 + "&language=ko-KR"

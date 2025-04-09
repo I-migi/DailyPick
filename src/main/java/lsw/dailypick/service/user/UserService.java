@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lsw.dailypick.dto.LoginDto;
 import lsw.dailypick.dto.UserDto;
+import lsw.dailypick.entity.Genre;
 import lsw.dailypick.entity.User;
 import lsw.dailypick.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -47,4 +49,13 @@ public class UserService {
         return userRepository.findByEmailAndPassword(loginDto.getEmail(), loginDto.getPassword()).isPresent();
     }
 
+    public Set<Genre> getUserGenres(String email) {
+        User user = userRepository.findByEmail(email).orElse(null);
+
+        if (user != null) {
+            return user.getGenres();
+        }
+        return null;
+
+    }
 }

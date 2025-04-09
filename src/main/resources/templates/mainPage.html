@@ -74,8 +74,6 @@
     });
 
     document.addEventListener("DOMContentLoaded", () => {
-        const isLoggedIn = document.body.dataset.loggedIn === "true";
-
         fetch("/api/movies/popular")
             .then(response => response.json())
             .then(data => {
