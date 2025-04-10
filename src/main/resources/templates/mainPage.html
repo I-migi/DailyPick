@@ -115,9 +115,13 @@
                         <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" />
                         <h3>${movie.title}</h3>
                         <p>${movie.release_date}</p>
-                    `;
+                        `;
+                        item.addEventListener("click", () => {
+                            window.location.href = `/movie?movieId=${movie.id}`;
+                        });
                         grid.appendChild(item);
                     });
+
                 });
 
             // 찜한 콘텐츠

@@ -29,6 +29,33 @@
 
         <div class="genres"></div>
     </div>
+    <!-- 리뷰 작성 섹션 -->
+    <section class="review-form-section">
+        <h2>📝 리뷰 작성하기</h2>
+        <form method="post" action="/review">
+            <input type="hidden" name="movieId" th:value="${movieId}" />
+
+            <label for="comment">코멘트</label>
+            <textarea id="comment" name="comment" rows="4" required></textarea>
+
+            <label for="rate">평점 (0.0 ~ 5.0)</label>
+            <input type="number" id="rate" name="rate" step="0.1" min="0" max="5" required />
+
+            <button type="submit">리뷰 작성</button>
+        </form>
+    </section>
+
+    <!-- 리뷰 리스트 섹션 -->
+    <section class="review-list-section">
+        <h2>📃 리뷰 목록</h2>
+        <div id="reviewList">
+            <p>리뷰를 불러오는 중...</p>
+        </div>
+    </section>
+
+
+
+
 </main>
 
 <footer class="footer">
@@ -68,6 +95,33 @@
             })
             .catch(err => {
                 console.error("Failed to load movie detail", err);
+            });
+
+        fetch(`/api/reviews?movieId=${movieId}`)
+            .then(res => res.json())
+            .then(reviews => {
+                const reviewList = document.getElementById("reviewList");
+                reviewList.innerHTML = "";
+
+                if (reviews.length === 0) {
+                    reviewList.innerHTML = "<p>아직 리뷰가 없습니다. 첫 리뷰를 남겨보세요!</p>";
+                    return;
+                }
+
+                reviews.forEach(review => {
+                    const div = document.createElement("div");
+                    div.className = "review-item";
+                    div.innerHTML = `
+    <p><strong>${review.userName}</strong> <span class="rating">⭐ ${review.rating}점</span></p>
+    <p>${review.comment}</p>
+`;
+
+                    reviewList.appendChild(div);
+                });
+            })
+            .catch(err => {
+                console.error("리뷰 불러오기 실패:", err);
+                document.getElementById("reviewList").innerHTML = "<p>리뷰를 불러오는 데 실패했습니다.</p>";
             });
     });
 </script>

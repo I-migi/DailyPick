@@ -5,12 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Getter
 @Entity
 @NoArgsConstructor
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +33,9 @@ public class User {
     @Setter
     @ManyToMany
     private Set<Genre> genres;
+
+    @OneToMany(mappedBy = "user")
+    private List<Review> reviews;
 
     public User(String email, String password, String name, String gender, LocalDate birthday) {
         this.email = email;
