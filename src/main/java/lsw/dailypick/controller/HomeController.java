@@ -41,8 +41,9 @@ public class HomeController {
     }
 
     @GetMapping(value = "/movie")
-    public String getMovieDetailPage(@RequestParam("movieId") String  movieId, Model model) {
+    public String getMovieDetailPage(@RequestParam("movieId") String  movieId, Model model, HttpSession session) {
 
+        model.addAttribute("loginUser", (User) session.getAttribute("loginUser"));
         model.addAttribute("movieId", movieId);
 
         return "detail";

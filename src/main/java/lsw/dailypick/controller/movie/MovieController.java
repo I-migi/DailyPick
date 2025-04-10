@@ -42,10 +42,6 @@ public class MovieController {
         return ResponseEntity.ok(tmDbService.getMovieDetail(movieId));
     }
 
-//    @GetMapping("/recommend")
-//    public ResponseEntity<?> getRecommendMovies(@RequestParam String genreId, @RequestParam Boolean preferDomestic) {
-//        return ResponseEntity.ok(tmDbService.getPopularMoviesByGenreAndCountry(genreId, preferDomestic));
-//    }
 
     @GetMapping("/recommend")
     public ResponseEntity<?> getRecommendMovies(HttpSession session) {
@@ -54,7 +50,6 @@ public class MovieController {
             return ResponseEntity.ok(Map.of("error", "로그인하고 추천 콘텐츠를 확인해보세요!"));
         }
 
-//        Set<Genre> genres = loginUser.getGenres();
         Set<Genre> genres = userService.getUserGenres(loginUser.getEmail());
         int size = genres.size();
 

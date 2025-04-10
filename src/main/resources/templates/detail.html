@@ -10,8 +10,14 @@
 <header class="navbar">
     <div class="logo"><a href="/">🎬 DailyPick</a></div>
     <nav>
-        <a href="/user/myPage">마이페이지</a>
-        <a href="/user/logout">로그아웃</a>
+        <div th:if="${loginUser != null}" class="user-dropdown">
+            <span class="user-name" onclick="toggleDropdown()" th:text="${loginUser.name} + '님'"></span>
+            <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
+                <a href="/user/myPage">마이페이지</a>
+                <a href="/user/logout">로그아웃</a>
+            </div>
+        </div>
+        <a th:if="${loginUser == null}" href="/user/login">로그인</a>
     </nav>
 </header>
 
@@ -38,8 +44,8 @@
             <label for="comment">코멘트</label>
             <textarea id="comment" name="comment" rows="4" required></textarea>
 
-            <label for="rate">평점 (0.0 ~ 5.0)</label>
-            <input type="number" id="rate" name="rate" step="0.1" min="0" max="5" required />
+            <label for="rating">평점 (0.0 ~ 5.0)</label>
+            <input type="number" id="rating" name="rating" step="1" min="0" max="5" required />
 
             <button type="submit">리뷰 작성</button>
         </form>
@@ -64,6 +70,19 @@
 
 <!-- movieId를 JS에서 안전하게 사용 -->
 <script th:inline="javascript">
+
+    function toggleDropdown() {
+        const menu = document.getElementById('dropdownMenu');
+        menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+    }
+
+    window.addEventListener('click', function(e) {
+        const dropdown = document.querySelector('.user-dropdown');
+        if (!dropdown.contains(e.target)) {
+            document.getElementById('dropdownMenu').style.display = 'none';
+        }
+    });
+
     document.addEventListener("DOMContentLoaded", () => {
         const movieId = [[${movieId}]];
 
@@ -97,7 +116,7 @@
                 console.error("Failed to load movie detail", err);
             });
 
-        fetch(`/api/reviews?movieId=${movieId}`)
+        fetch(`/reviews?movieId=${movieId}`)
             .then(res => res.json())
             .then(reviews => {
                 const reviewList = document.getElementById("reviewList");
