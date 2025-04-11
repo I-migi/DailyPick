@@ -63,7 +63,12 @@ public class MovieController {
         return ResponseEntity.ok(tmDbService.getPopularMoviesByGenreAndCountry(randomGenre.getApiId(), loginUser.getPrefersDomestic()));
     }
 
+    @GetMapping
+    public ResponseEntity<?> getMovies(@RequestParam(value = "genreId", required = false) String genreId, @RequestParam(value = "sort", required = false, defaultValue = "latest") String sort, @RequestParam(value = "keyword", required = false) String keyword) {
 
 
+        return ResponseEntity.ok(tmDbService.getMovies(genreId, sort, keyword));
+
+    }
 
 }

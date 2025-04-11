@@ -9,20 +9,27 @@
 <body>
 <!-- 🔝 헤더 -->
 <header class="navbar">
-    <div class="logo">🎬 DailyPick</div>
-    <nav>
-        <button id="analyzeBtn" class="analyze-button">🎯 취향 분석하기</button>
+    <div class="nav-left">
+        <div class="logo">🎬 DailyPick</div>
 
-        <div th:if="${isLoggedIn == true}" class="user-dropdown">
+    </div>
+
+    <nav class="nav-right">
+        <a href="/movies/explore" class="nav-item">영화 탐색</a>
+
+        <a href="/user/analyzePage" class="nav-item">취향 분석하기</a>
+
+        <div th:if="${isLoggedIn == true}" class="user-dropdown nav-item">
             <span class="user-name" onclick="toggleDropdown()" th:text="${userName} + '님'"></span>
             <div class="dropdown-menu" id="dropdownMenu" style="display: none;">
                 <a href="/user/myPage">마이페이지</a>
                 <a href="/user/logout">로그아웃</a>
             </div>
         </div>
-        <a th:if="${isLoggedIn == false}" href="/user/login">로그인</a>
+        <a th:if="${isLoggedIn == false}" href="/user/login" class="nav-item">로그인</a>
     </nav>
 </header>
+
 
 
 

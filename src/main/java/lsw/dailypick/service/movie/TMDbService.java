@@ -59,6 +59,19 @@ public class TMDbService {
         return response.getResults().subList(0, 10);
     }
 
+//    public List<MovieDto> getMovies(String genreId, String sort, String keyword) {
+//
+//        UriComponentsBuilder uriBuilder;
+//
+//        if (keyword != null && !keyword.isBlank()) {
+//
+//            uriBuilder = UriComponentsBuilder
+//                    .fromHttpUrl
+//
+//        }
+//        return null;
+//    }
+
     public int convertGenreId(String genre) {
         return switch (genre) {
             case "액션" -> 28;
@@ -90,6 +103,6 @@ public class TMDbService {
                 + "?api_key=" + apiKey
                 + "&language=ko-KR";
         return restTemplate.getForObject(url, MovieDetailDto.class);
-
     }
+
 }

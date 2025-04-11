@@ -49,4 +49,10 @@ public class HomeController {
         return "detail";
     }
 
+    @GetMapping("/movies/explore")
+    public String exploreMovies() {
+        return "explore";
+    }
+
+
 }

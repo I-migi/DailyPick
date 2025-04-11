@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>영화 탐색 | DailyPick</title>
+    <link rel="stylesheet" href="/css/explore.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<header class="explore-header">
+    <h1>🔎 영화 탐색</h1>
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="영화 제목을 입력하세요...">
+        <button id="searchBtn">검색</button>
+    </div>
+    <div class="filter-bar">
+        <button class="filter-btn">전체</button>
+        <button class="filter-btn">액션</button>
+        <button class="filter-btn">로맨스</button>
+        <button class="filter-btn">코미디</button>
+        <button class="filter-btn">SF</button>
+        <button class="filter-btn">스릴러</button>
+    </div>
+</header>
+
+<main class="explore-main">
+    <div class="grid" id="movieGrid">
+        <!-- JS에서 카드 채움 -->
+    </div>
+    <p class="empty-message" id="emptyMessage" style="display: none;">검색 결과가 없습니다.</p>
+</main>
+
+<footer class="footer">
+    &copy; 2025 DailyPick | All rights reserved
+</footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const grid = document.getElementById("movieGrid");
+        const emptyMessage = document.getElementById("emptyMessage");
+
+        function loadDummyMovies() {
+            const dummy = [
+                { id: 1, title: "인셉션", date: "2010-07-16", poster: "/images/inception.jpg" },
+                { id: 2, title: "인터스텔라", date: "2014-11-07", poster: "/images/interstellar.jpg" },
+                { id: 3, title: "기생충", date: "2019-05-30", poster: "/images/parasite.jpg" }
+            ];
+            grid.innerHTML = "";
+            if (dummy.length === 0) {
+                emptyMessage.style.display = "block";
+            } else {
+                emptyMessage.style.display = "none";
+                dummy.forEach(movie => {
+                    const card = document.createElement("div");
+                    card.className = "movie-card";
+                    card.innerHTML = `
+                        <img src="${movie.poster}" alt="${movie.title}">
+                        <div class="info">
+                            <h3>${movie.title}</h3>
+                            <p>${movie.date}</p>
+                        </div>
+                    `;
+                    card.addEventListener("click", () => {
+                        location.href = `/movie?movieId=${movie.id}`;
+                    });
+                    grid.appendChild(card);
+                });
+            }
+        }
+
+        loadDummyMovies(); // 추후 fetch로 교체
+    });
+</script>
+
+</body>
+</html>
