@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.util.UriUtils;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -59,18 +62,39 @@ public class TMDbService {
         return response.getResults().subList(0, 10);
     }
 
-//    public List<MovieDto> getMovies(String genreId, String sort, String keyword) {
-//
-//        UriComponentsBuilder uriBuilder;
-//
-//        if (keyword != null && !keyword.isBlank()) {
-//
-//            uriBuilder = UriComponentsBuilder
-//                    .fromHttpUrl
-//
-//        }
-//        return null;
-//    }
+    public List<MovieDto> getMovies(String genreId, String sort) {
+
+        String url = "https://api.themoviedb.org/3/discover/movie"
+                + "?api_key=" + apiKey
+                + "&language=ko-KR";
+
+        if (sort != null && !sort.isEmpty()) {
+            url += "&sort_by=" + sort;
+        } else {
+            url += "&sort_by=popularity.desc";
+        }
+
+        if (genreId != null && !genreId.isEmpty()) {
+            url += "&with_genres=" + genreId;
+        }
+
+        TMDBResponseDto response =  restTemplate.getForObject(url, TMDBResponseDto.class);
+        return response.getResults();
+    }
+
+    public List<MovieDto> searchMovies(String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        String url = "https://api.themoviedb.org/3/search/movie"
+                + "?api_key=" + apiKey
+                + "&language=ko-KR"
+                + "&query=" + UriUtils.encode(keyword, StandardCharsets.UTF_8);
+
+        TMDBResponseDto response = restTemplate.getForObject(url, TMDBResponseDto.class);
+        return response.getResults();
+    }
 
     public int convertGenreId(String genre) {
         return switch (genre) {
