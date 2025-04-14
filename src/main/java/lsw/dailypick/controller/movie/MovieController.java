@@ -75,4 +75,9 @@ public class MovieController {
         return ResponseEntity.ok(tmDbService.searchMovies(keyword));
     }
 
+    @GetMapping("/recently")
+    public ResponseEntity<?> recentlyMovies() {
+        return ResponseEntity.ok(tmDbService.getRecentlyMovies());
+    }
+
 }

@@ -26,7 +26,6 @@
 
 <main class="explore-main">
     <div class="grid" id="movieGrid">
-        <!-- JS에서 카드 채움 -->
     </div>
     <p class="empty-message" id="emptyMessage" style="display: none;">검색 결과가 없습니다.</p>
 </main>
@@ -39,39 +38,72 @@
     document.addEventListener("DOMContentLoaded", () => {
         const grid = document.getElementById("movieGrid");
         const emptyMessage = document.getElementById("emptyMessage");
+        const searchInput = document.getElementById("searchInput");
+        const searchBtn = document.getElementById("searchBtn");
 
-        function loadDummyMovies() {
-            const dummy = [
-                { id: 1, title: "인셉션", date: "2010-07-16", poster: "/images/inception.jpg" },
-                { id: 2, title: "인터스텔라", date: "2014-11-07", poster: "/images/interstellar.jpg" },
-                { id: 3, title: "기생충", date: "2019-05-30", poster: "/images/parasite.jpg" }
-            ];
+        // 영화 카드 그리기 함수
+        function renderMovies(movies) {
             grid.innerHTML = "";
-            if (dummy.length === 0) {
+            if (!movies || movies.length === 0) {
                 emptyMessage.style.display = "block";
-            } else {
-                emptyMessage.style.display = "none";
-                dummy.forEach(movie => {
-                    const card = document.createElement("div");
-                    card.className = "movie-card";
-                    card.innerHTML = `
-                        <img src="${movie.poster}" alt="${movie.title}">
-                        <div class="info">
-                            <h3>${movie.title}</h3>
-                            <p>${movie.date}</p>
-                        </div>
-                    `;
-                    card.addEventListener("click", () => {
-                        location.href = `/movie?movieId=${movie.id}`;
-                    });
-                    grid.appendChild(card);
-                });
+                return;
             }
+            emptyMessage.style.display = "none";
+            movies.forEach(movie => {
+                const card = document.createElement("div");
+                card.className = "movie-card";
+                card.innerHTML = `
+    <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
+    <div class="info">
+        <h3>${movie.title}</h3>
+        <p>${movie.release_date || '정보 없음'}</p>
+    </div>
+`;
+
+                card.addEventListener("click", () => {
+                    location.href = `/movie?movieId=${movie.id}`;
+                });
+                grid.appendChild(card);
+            });
         }
 
-        loadDummyMovies(); // 추후 fetch로 교체
+        // 최근 영화 로드
+        function loadRecentlyMovies() {
+            fetch('/api/movies/recently')
+                .then(res => res.json())
+                .then(data => renderMovies(data))
+                .catch(err => {
+                    console.error('영화 불러오기 실패:', err);
+                    emptyMessage.style.display = "block";
+                });
+        }
+
+        // 검색
+        function searchMovies(keyword) {
+            fetch(`/api/movies/search?keyword=${encodeURIComponent(keyword)}`)
+                .then(res => res.json())
+                .then(data => renderMovies(data))
+                .catch(err => {
+                    console.error('검색 실패:', err);
+                    emptyMessage.style.display = "block";
+                });
+        }
+
+        // 검색 버튼 클릭 이벤트
+        searchBtn.addEventListener("click", () => {
+            const keyword = searchInput.value.trim();
+            if (keyword) {
+                searchMovies(keyword);
+            } else {
+                loadRecentlyMovies();
+            }
+        });
+
+        // 초기 로딩
+        loadRecentlyMovies();
     });
 </script>
+
 
 </body>
 </html>

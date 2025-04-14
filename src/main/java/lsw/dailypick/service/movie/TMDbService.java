@@ -13,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -60,6 +61,21 @@ public class TMDbService {
                 + "&with_original_language=" + originalLanguage;
         TMDBResponseDto response =  restTemplate.getForObject(url, TMDBResponseDto.class);
         return response.getResults().subList(0, 10);
+    }
+
+    public List<MovieDto> getRecentlyMovies() {
+
+        String today = LocalDate.now().toString();
+
+        String url = "https://api.themoviedb.org/3/discover/movie"
+                + "?api_key=" + apiKey
+                + "&language=ko-KR"
+                + "&sort_by=release_date.desc"
+                + "&release_date.lte=" + today
+                + "&vote_count.gte=30";
+
+        TMDBResponseDto response = restTemplate.getForObject(url, TMDBResponseDto.class);
+        return response.getResults();
     }
 
     public List<MovieDto> getMovies(String genreId, String sort) {
